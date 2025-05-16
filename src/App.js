@@ -5,6 +5,7 @@ import RecipeOutput from './components/RecipeOutput';
 import RecipeLinks from './components/RecipeLinks';
 import { findNonVeganIngredients, fetchVeganRecipes, generatePrompt } from './utils/helpers.js';
 import { callOpenAI } from './utils/api';
+import VoiceChatBot  from './components/VoiceChatBot';
 
 function App() {
   const [input, setInput] = useState('');
@@ -72,6 +73,9 @@ function App() {
       {warning && <div className="warning">{warning}</div>}
       <RecipeOutput content={output} />
       <RecipeLinks links={recipeLinks} />
+
+    
+      <VoiceChatBot />
     </div>
   );
 }
