@@ -5,6 +5,7 @@ import RecipeOutput from './components/RecipeOutput';
 import RecipeLinks from './components/RecipeLinks';
 import { findNonVeganIngredients, generatePrompt } from './utils/helpers.js';
 import { callOpenAI, fetchVeganRecipes } from './utils/api';
+import Homepage from './pages/Homepage';
 
 function App() {
   const [input, setInput] = useState('');
@@ -53,35 +54,37 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>🌿 Vegan Recipe Generator</h1>
-      <p className="subtitle">Create delicious plant-based recipes from your ingredients!</p>
+    <Homepage>
+      <div className="App">
+        <h1>🌿 Vegan Recipe Generator</h1>
+        <p className="subtitle">Create delicious plant-based recipes from your ingredients!</p>
 
-      <div className="input-section">
-        <textarea
-          placeholder="Enter ingredients or a dish idea (e.g., 'pasta with tomatoes and basil' or 'chocolate dessert')..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          rows="4"
-        />
-        <div className="button-group">
-          <button 
-            onClick={generateRecipe} 
-            disabled={loading || !input.trim()}
-            className="generate-btn"
-          >
-            {loading ? '🔄 Working...' : '✨ Generate Recipe'}
-          </button>
-          <VoiceInput setInput={setInput} setOutput={setOutput} />
+        <div className="input-section">
+          <textarea
+            placeholder="Enter ingredients or a dish idea (e.g., 'pasta with tomatoes and basil' or 'chocolate dessert')..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            rows="4"
+          />
+          <div className="button-group">
+            <button 
+              onClick={generateRecipe} 
+              disabled={loading || !input.trim()}
+              className="generate-btn"
+            >
+              {loading ? '🔄 Working...' : '✨ Generate Recipe'}
+            </button>
+            <VoiceInput setInput={setInput} setOutput={setOutput} />
+          </div>
         </div>
-      </div>
 
-      {warning && <div className="warning">{warning}</div>}
-      
-      {output && <RecipeOutput content={output} />}
-      
-      {recipeLinks.length > 0 && <RecipeLinks links={recipeLinks} />}
-    </div>
+        {warning && <div className="warning">{warning}</div>}
+        
+        {output && <RecipeOutput content={output} />}
+        
+        {recipeLinks.length > 0 && <RecipeLinks links={recipeLinks} />}
+      </div>
+    </Homepage>
   );
 }
 

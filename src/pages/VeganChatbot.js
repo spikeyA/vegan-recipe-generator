@@ -1,5 +1,5 @@
 import React from 'react';
-import VoiceChatBot from '../components/VoiceChatBot'; // Adjust path if needed
+import VoiceChatBot from '../components/VoiceChatBot'; 
 
 function VeganChatbot() {
   return (
