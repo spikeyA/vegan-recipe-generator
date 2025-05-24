@@ -1,31 +1,284 @@
+/* Global Styles */
 .App {
   text-align: center;
-  max-width: 700px;
-  margin: 50px auto;
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  padding: 30px;
-  border-radius: 10px;
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  min-height: 80vh;
+}
+
+.App h1 {
+  color: #2d5016;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  color: #5a7c65;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+/* Input Section */
+.input-section {
+  margin-bottom: 30px;
 }
 
 textarea {
   width: 100%;
-  height: 120px;
+  min-height: 120px;
   font-size: 16px;
-  padding: 10px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  background: white;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+textarea::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Button Styles */
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.generate-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.generate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.generate-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 button {
-  margin-top: 15px;
-  padding: 10px 20px;
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
   font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 3px 10px rgba(255, 152, 0, 0.3);
 }
 
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+}
+
+/* Warning Styles */
+.warning {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  color: #856404;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-left: 4px solid #ffc107;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+/* Output Styles */
 .output {
-  margin-top: 20px;
+  margin-top: 30px;
   text-align: left;
   white-space: pre-wrap;
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  line-height: 1.6;
 }
+
+.output pre {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  color: #333;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Recipe Links Styles */
+.recipe-links {
+  margin-top: 30px;
+  padding: 25px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.recipe-links h2 {
+  color: #2d5016;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.recipe-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recipe-links li {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border-left: 4px solid #4CAF50;
+}
+
+.recipe-links li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-links a {
+  color: #2d5016;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.recipe-links a:hover {
+  color: #4CAF50;
+}
+
+.recipe-links a::before {
+  content: "🍽️";
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.generate-btn:disabled {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .App {
+    margin: 10px;
+    padding: 20px;
+  }
+  
+  .App h1 {
+    font-size: 2rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .generate-btn,
+  button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  textarea {
+    min-height: 100px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .App {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ecf0f1;
+  }
+  
+  .App h1 {
+    color: #a8e6cf;
+  }
+  
+  .subtitle {
+    color: #bdc3c7;
+  }
+  
+  textarea {
+    background: #34495e;
+    color: #ecf0f1;
+    border-color: #566573;
+  }
+  
+  .output {
+    background: #34495e;
+    color: #ecf0f1;
+    border-color: #566573;
+  }
+  
+  .recipe-links {
+    background: #34495e;
+  }
+  
+  .recipe-links h2 {
+    color: #a8e6cf;
+  }
+  
+  .recipe-links li {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+  
+  .recipe-links a {
+    color: #a8e6cf;
+  }
+}
+;
