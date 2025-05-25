@@ -2,43 +2,75 @@ import React from "react";
 import { Button } from "../components/Button";
 import { Card } from "../components/Card";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { GiThreeLeaves } from "react-icons/gi";
 
 export default function VeganRecipeHomepage() {
   const navigate = useNavigate();
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-green-200 to-green-300"
-      style={{
-        backgroundImage: 'url("/images/vegan-pattern.png")',
-        backgroundSize: 'cover',
-        backgroundBlendMode: 'overlay',
-      }}
-    >
-      <div className="w-full max-w-2xl flex flex-col items-center gap-12 p-6">
-        <motion.h1
-          className="text-5xl font-extrabold text-green-900 mb-4 text-center drop-shadow-lg"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Welcome to Vegan Delight
-        </motion.h1>
+    <div className="vegan-gradient-bg" style={{ 
+      minHeight: "100vh", 
+      padding: "2rem 0",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      justifyContent: "flex-start"
+    }}>
+      {/* Header at the very top center */}
+      <motion.h1
+        style={{
+          fontSize: "2.5rem",
+          fontWeight: "bold",
+          color: "#166534",
+          margin: "0 0 4rem 0",
+          textAlign: "center",
+          textShadow: "0 2px 8px #bbf7d0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.7rem",
+          width: "100%",
+        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <GiThreeLeaves style={{ color: "#22c55e", fontSize: "2.2rem" }} />
+        Welcome to Vegan Delight
+      </motion.h1>
 
+      {/* Main content below header, centered horizontally */}
+      <div style={{
+        width: "100%",
+        maxWidth: "600px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "3rem",
+        padding: "0 1.5rem"
+      }}>
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full"
-          initial={{ opacity: 0,x:20, y: 20 }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "2fr",
+            gap: "0rem",
+            width: "100%"
+          }}
+          initial={{ opacity: 0, x: 20, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Card title="Generate Recipe">
-            <div className="flex flex-col items-center">
-             <Button onClick={()=> navigate("/recipegenerator")}>Start</Button>
+           <Card title="Generate Recipe">
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <span></span>
+              <Button onClick={() => navigate("/recipegenerator")}>Start</Button>
             </div>
           </Card>
 
           <Card title="Vegan Chat">
-            <div className="flex flex-col items-center">
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <span></span>
               <Button onClick={() => navigate("/veganchatbot")}>Chat Now</Button>
             </div>
           </Card>
