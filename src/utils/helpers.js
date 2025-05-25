@@ -1,3 +1,4 @@
+import axios from 'axios';
 export const NON_VEGAN_INGREDIENTS = [
   'milk', 'cheese', 'butter', 'yogurt', 'yoghurt', 'cream', 'sour cream',
   'egg', 'eggs', 'honey', 'meat', 'chicken', 'turkey', 'duck',
@@ -16,6 +17,33 @@ export function findNonVeganIngredients(input) {
   });
 }
 
+export const fetchVeganRecipes = async (query) => {
+  try {
+    const response = await axios.get(
+      'https://api.spoonacular.com/recipes/complexSearch',
+      {
+        params: {
+          query,
+          diet: 'vegan',
+          number: 3,
+          apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY,
+        },
+      }
+    );
+    return {
+      success: true,
+      data: response.data.results,
+    };
+  } catch (error) {
+    console.error('Spoonacular API error:', error);
+
+    return {
+      success: false,
+      data: [],
+      error: error.message || 'Something went wrong',
+    };
+  }
+};
 export function generatePrompt(input) {
   return `You are a professional vegan chef and recipe creator. Create a delicious, healthy, and creative vegan recipe based on: "${input}".
 

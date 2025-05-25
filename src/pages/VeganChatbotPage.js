@@ -1,7 +1,7 @@
 import React from 'react';
 import VoiceChatBot from '../components/VoiceChatBot'; 
 
-function VeganChatbot() {
+function VeganChatbotPage() {
   return (
     <div>
       <VoiceChatBot />
@@ -9,4 +9,4 @@ function VeganChatbot() {
   );
 }
 
-export default VeganChatbot;
+export default VeganChatbotPage;
