@@ -23,7 +23,11 @@ function VoiceInput({ setInput, setOutput }) {
     recognition.onerror = (e) => setOutput('Voice error: ' + e.error);
   };
 
-  return <button onClick={handleVoice}>🎤 Use Voice</button>;
+  return (
+    <Button onClick={handleVoice} variant="secondary" className={`flex-1 ${className}`}>
+      🎤 Use Voice
+    </Button>
+  );
 }
 
 export default VoiceInput;
