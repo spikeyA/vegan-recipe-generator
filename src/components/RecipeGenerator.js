@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 // Mock API functions (replace with your actual implementations)
 const findNonVeganIngredients = (input) => {
@@ -59,6 +60,49 @@ const fetchVeganRecipes = async (input) => {
   };
 };
 
+// Styled Card Component
+const Card = ({ title, children, className = "" }) => {
+  return (
+    <motion.div
+      className={`bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-green-200/50 ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: "0 20px 40px rgba(34, 197, 94, 0.15)"
+      }}
+    >
+      {title && (
+        <h3 className="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
+          {title}
+        </h3>
+      )}
+      {children}
+    </motion.div>
+  );
+};
+
+// Styled Button Component
+const Button = ({ children, onClick, disabled = false, variant = "primary", className = "" }) => {
+  const baseClasses = "px-6 py-3 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg";
+  const variants = {
+    primary: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:shadow-xl transform hover:scale-105",
+    secondary: "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 hover:shadow-xl transform hover:scale-105"
+  };
+  
+  return (
+    <motion.button
+      className={`${baseClasses} ${variants[variant]} ${disabled ? 'opacity-50 cursor-not-allowed transform-none' : ''} ${className}`}
+      onClick={onClick}
+      disabled={disabled}
+      whileTap={{ scale: disabled ? 1 : 0.95 }}
+    >
+      {children}
+    </motion.button>
+  );
+};
+
 // Voice Input Component
 const VoiceInput = ({ setInput, setOutput }) => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -84,12 +128,9 @@ const VoiceInput = ({ setInput, setOutput }) => {
   };
 
   return (
-    <button 
-      onClick={handleVoice}
-      className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-    >
+    <Button onClick={handleVoice} variant="secondary" className="flex-1">
       🎤 Use Voice
-    </button>
+    </Button>
   );
 };
 
@@ -98,14 +139,11 @@ const RecipeOutput = ({ content }) => {
   if (!content) return null;
   
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md">
-      <h3 className="text-lg font-semibold mb-4 text-green-800 flex items-center gap-2">
-        👨‍🍳 Generated Recipe
-      </h3>
-      <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+    <Card title="👨‍🍳 Generated Recipe">
+      <div className="whitespace-pre-wrap text-gray-700 leading-relaxed text-base">
         {content}
       </div>
-    </div>
+    </Card>
   );
 };
 
@@ -116,13 +154,14 @@ const RecipeLinks = ({ links = [] }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md">
-      <h3 className="text-lg font-semibold mb-4 text-green-800 flex items-center gap-2">
-        🔗 More Vegan Recipes You Can Try
-      </h3>
+    <Card title="🔗 More Vegan Recipes You Can Try">
       <div className="space-y-4">
         {links.map((recipe) => (
-          <div key={recipe.id} className="border-l-4 border-green-500 pl-4 hover:bg-gray-50 p-3 rounded transition-colors">
+          <motion.div
+            key={recipe.id}
+            className="border-l-4 border-green-500 pl-4 hover:bg-green-50/50 p-3 rounded-lg transition-all duration-300"
+            whileHover={{ x: 5 }}
+          >
             <a
               href={`https://spoonacular.com/recipes/${recipe.title
                 .toLowerCase()
@@ -130,7 +169,7 @@ const RecipeLinks = ({ links = [] }) => {
                 .replace(/^-+|-+$/g, '')}-${recipe.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-green-700 hover:text-green-900 font-medium text-lg flex items-center gap-2"
+              className="text-green-700 hover:text-green-900 font-semibold text-lg flex items-center gap-2 transition-colors"
             >
               {recipe.title} 🔗
             </a>
@@ -144,13 +183,13 @@ const RecipeLinks = ({ links = [] }) => {
                 {recipe.summary.replace(/<[^>]*>/g, '').substring(0, 150)}...
               </p>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="text-center mt-6 text-sm text-gray-500">
         💡 Click any recipe above to view full instructions on Spoonacular
       </div>
-    </div>
+    </Card>
   );
 };
 
@@ -208,78 +247,98 @@ export default function RecipeGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100 to-green-200">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <button 
-              onClick={() => window.history.back()}
-              className="absolute left-4 top-8 p-2 hover:bg-green-200 rounded-full transition-colors"
-            >
-              ← Back
-            </button>
-            <h1 className="text-4xl font-bold text-green-800 flex items-center gap-3">
-              🌿 Vegan Recipe Generator
-            </h1>
-          </div>
-          <p className="text-green-600 text-lg">
-            Discover delicious plant-based recipes tailored to your ingredients!
-          </p>
-        </div>
+    <div 
+      className="min-h-screen"
+      style={{
+        background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 25%, #bbf7d0 50%, #86efac 75%, #4ade80 100%)",
+        padding: "2rem 0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}
+    >
+      {/* Header */}
+      <motion.div
+        className="text-center mb-8 w-full"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <button 
+          onClick={() => window.history.back()}
+          className="absolute left-8 top-8 p-3 hover:bg-green-200/50 rounded-full transition-all duration-300 text-green-800 font-semibold backdrop-blur-sm bg-white/30"
+        >
+          ← Back
+        </button>
+        <h1 
+          className="text-4xl font-bold text-green-800 flex items-center justify-center gap-3 mb-4"
+          style={{
+            textShadow: "0 2px 8px rgba(187, 247, 208, 0.8)"
+          }}
+        >
+          🌿 Vegan Recipe Generator
+        </h1>
+        <p className="text-green-700 text-xl font-medium">
+          Discover delicious plant-based recipes tailored to your ingredients!
+        </p>
+      </motion.div>
 
+      {/* Main content */}
+      <div className="w-full max-w-4xl px-6 space-y-6">
         {/* Input Section */}
-        <div className="bg-white rounded-lg p-6 shadow-md mb-6">
-          <label className="block text-green-800 font-semibold mb-3">
-            What ingredients do you have or what dish would you like to make?
-          </label>
-        </div>
-
-        <div>
-         <p>  
-          <textarea
-            placeholder="Enter ingredients like 'tomatoes, basil, pasta' or a dish idea like 'vegan lasagna'..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none resize-none h-32"
-          />
-          </p> 
-          </div> 
-
-          <div className="flex gap-3 mt-4">
+        <Card title="🌿 What would you like to cook?">
+          <div className="space-y-4">
+            <label className="block text-green-800 font-semibold text-lg">
+              Enter ingredients or describe a dish you'd like to make:
+            </label>
             <p>
-            <button 
-              onClick={generateRecipe} 
-              disabled={loading}
-              className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-1"
-            >
-              {loading ? (
-                <>
-                  ⏳ Generating...
-                </>
-              ) : (
-                <>
-                  👨‍🍳 Generate Recipe
-                </>
-              )}
-            </button>
+            <textarea
+              placeholder="Enter ingredients like 'tomatoes, basil, pasta' or a dish idea like 'vegan lasagna'..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="w-full max-w-800xl p-4 border-2 border-green-200 rounded-xl focus:border-green-500 focus:outline-none resize-none h-32 text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"
+            />
+            </p>
+            <div className="flex gap-6">
+              <Button 
+                onClick={generateRecipe} 
+                disabled={loading}
+                className="flex-2"
+              >
+                {loading ? (
+                  <>
+                    ⏳ Generating...
+                  </>
+                ) : (
+                  <>
+                    👨‍🍳 Generate Recipe
+                  </>
+                )}
+              </Button>
+              
                  <VoiceInput setInput={setInput} setOutput={setOutput} />
-           </p>   
+              
+            </div>
+            <div className="text-sm text-gray-600 text-center bg-white/50 rounded-lg p-2">
+              💡 Tip: Press Ctrl+Enter to generate quickly
+            </div>
           </div>
-          
-          <div className="text-sm text-gray-500 mt-2">
-            💡 Tip: Press Ctrl+Enter to generate quickly
-          </div>
-        </div>
+        </Card>
 
         {/* Warning */}
         {warning && (
-          <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+          <motion.div
+            className="bg-yellow-100/90 backdrop-blur-sm border-l-4 border-yellow-500 p-4 rounded-xl shadow-lg"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="flex items-center gap-2">
-              ⚠️ <p className="text-yellow-800">{warning}</p>
+              <span className="text-2xl">⚠️</span>
+              <p className="text-yellow-800 font-semibold">{warning}</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Results */}
@@ -289,10 +348,17 @@ export default function RecipeGenerator() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-12 text-gray-500">
-          <p>🌱 Making the world more delicious, one plant-based recipe at a time!</p>
-        </div>
+        <motion.div
+          className="text-center mt-12 text-green-700 font-medium text-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <p className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 inline-block shadow-lg">
+            🌱 Making the world more delicious, one plant-based recipe at a time!
+          </p>
+        </motion.div>
       </div>
-    
+    </div>
   );
 }
